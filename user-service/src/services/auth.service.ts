@@ -1,27 +1,34 @@
 import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import { signToken } from "../utils/jwt.util";
 import { IAuthService } from "../interfaces/auth.interface";
 import { PrismaClient } from "@prisma/client";
+import { UserRepository } from "../repositories/user.repository";
 import { config } from "dotenv";
 config();
 
 export class AuthService implements IAuthService {
-  constructor(private prisma: PrismaClient) {}
+  private repo: UserRepository;
+
+  constructor(prisma: PrismaClient) {
+    this.repo = new UserRepository(prisma);
+  }
 
   async signup(email: string, password: string, name: string) {
-    const existing = await this.prisma.user.findUnique({ where: { email } });
+    const existing = await this.repo.findByEmail(email);
     if (existing) throw new Error("Email already in use");
 
     const hashedPassword = await bcrypt.hash(password, 10);
-    const user = await this.prisma.user.create({
-      data: { email, password: hashedPassword, name },
+    const user = await this.repo.create({
+      email,
+      password: hashedPassword,
+      name,
     });
 
     return { token: this.generateToken(user.id, user.role), user };
   }
 
   async login(email: string, password: string) {
-    const user = await this.prisma.user.findUnique({ where: { email } });
+    const user = await this.repo.findByEmail(email);
     if (!user) throw new Error("Invalid credentials");
 
     const match = await bcrypt.compare(password, user.password);
@@ -30,7 +37,14 @@ export class AuthService implements IAuthService {
     return { token: this.generateToken(user.id, user.role), user };
   }
 
+  async updateProfile(id: string, data: { name?: string; password?: string }) {
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    }
+    return this.repo.update(id, data);
+  }
+
   private generateToken(id: string, role: string) {
-    return jwt.sign({ id, role }, process.env.JWT_SECRET!, { expiresIn: "1h" });
+    return signToken({ id, role });
   }
 }
