@@ -1,0 +1,14 @@
+{
+  "name": "@shared/common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.x",
+    "winston": "^3.x",
+    "dotenv": "^16.x"
+  }
+}
