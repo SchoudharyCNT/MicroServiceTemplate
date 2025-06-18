@@ -8,6 +8,6 @@ export function createProxy(serviceUrl: string) {
     http2: false,
     rewritePrefix: "",
     // Forward original request headers
-    replyOptions: { rewriteRequestHeaders: (_req, headers) => headers },
+    replyOptions: { rewriteRequestHeaders: (_req: any, headers: any) => headers },
   });
 }

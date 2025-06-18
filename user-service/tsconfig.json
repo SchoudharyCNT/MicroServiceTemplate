@@ -10,7 +10,10 @@
     "baseUrl": ".",
     "paths": {
       "@shared/*": ["../shared/src/*"]
-    }
+    },
+    "typeRoots": ["../shared/src/types"]
   },
-  "include": ["src/**/*"]
+
+  "include": ["src", "../shared/src/types/stubs.d.ts"]
+
 }
