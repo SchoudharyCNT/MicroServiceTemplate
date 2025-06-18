@@ -6,6 +6,7 @@ import { UserRepository } from "../repositories/user.repository";
 import { config } from "dotenv";
 config();
 
+// Handles user signup and login logic
 export class AuthService implements IAuthService {
   private repo: UserRepository;
 

@@ -5,6 +5,7 @@ export interface AuthRequest extends Request {
   user?: { id: string; role: string };
 }
 
+// Simple JWT auth middleware used by transaction routes
 export function authenticateJWT(
   req: AuthRequest,
   res: Response,

@@ -1,5 +1,6 @@
 import winston from "winston";
 
+// Shared logger used across services
 export const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
