@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
+// Generic Express error handler
 export function errorMiddleware(
   err: any,
   _: Request,

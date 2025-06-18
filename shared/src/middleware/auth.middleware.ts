@@ -1,11 +1,13 @@
 import { Request, Response, NextFunction } from "express";
 import { verifyToken } from "../utils/jwt";
-import { JwtPayload } from "../types/auth.types";
+import { JwtPayload } from "../types/auth.type";
 
 export interface AuthenticatedRequest extends Request {
   user?: JwtPayload;
 }
 
+// Express middleware that validates a bearer token and attaches
+// the decoded payload to the request object
 export function authenticate(
   req: AuthenticatedRequest,
   res: Response,

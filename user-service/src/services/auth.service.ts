@@ -5,6 +5,7 @@ import { PrismaClient } from "@prisma/client";
 import { config } from "dotenv";
 config();
 
+// Handles user signup and login logic
 export class AuthService implements IAuthService {
   constructor(private prisma: PrismaClient) {}
 
