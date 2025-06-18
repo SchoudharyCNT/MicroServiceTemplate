@@ -1,5 +1,6 @@
 {
   "name": "transaction-service",
+  "version": "1.0.0",
   "scripts": {
     "dev": "ts-node-dev src/server.ts",
     "build": "tsc",
@@ -10,9 +11,9 @@
   "dependencies": {
     "express": "^4.x",
     "jsonwebtoken": "^9.x",
+    "@prisma/client": "^5.x",
     "prisma": "^5.x",
-    "dotenv": "^16.x",
-    "@prisma/client": "^5.x"
+    "dotenv": "^16.x"
   },
   "devDependencies": {
     "ts-node-dev": "^2.x",

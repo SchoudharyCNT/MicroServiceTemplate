@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { verifyToken } from "@shared/utils/jwt";
 
 export interface AuthRequest extends Request {
   user?: { id: string; role: string };
@@ -16,10 +16,7 @@ export function authenticateJWT(
 
   const token = authHeader.split(" ")[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET!) as {
-      id: string;
-      role: string;
-    };
+    const decoded = verifyToken(token) as { id: string; role: string };
     req.user = decoded;
     next();
   } catch (err) {
