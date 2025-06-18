@@ -1,21 +1,23 @@
 import { Request, Response, NextFunction } from "express";
-import { verifyToken } from "../utils/jwt.util";
+import { verifyToken } from "@shared/utils/jwt";
+import { JwtPayload } from "@shared/types/auth.type";
 
 export interface AuthRequest extends Request {
-  user?: { id: string; role: string };
+  user?: JwtPayload;
 }
 
-export function authenticate(
+export function authenticateJWT(
   req: AuthRequest,
   res: Response,
   next: NextFunction
 ) {
-  const header = req.headers.authorization;
-  if (!header) return res.status(401).json({ error: "Missing token" });
+  const authHeader = req.headers.authorization;
+  if (!authHeader) return res.status(401).json({ error: "Missing token" });
 
-  const token = header.split(" ")[1];
+  const token = authHeader.split(" ")[1];
   try {
-    req.user = verifyToken(token);
+    const decoded = verifyToken(token);
+    req.user = decoded;
     next();
   } catch {
     return res.status(403).json({ error: "Invalid token" });
