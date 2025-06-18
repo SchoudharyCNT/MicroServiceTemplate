@@ -1,0 +1,54 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  user-service:
+    build:
+      context: ./user-service
+    container_name: user-service
+    restart: always
+    env_file:
+      - ./user-service/.env
+    depends_on:
+      - postgres
+    ports:
+      - "4001:4001"
+
+  transaction-service:
+    build:
+      context: ./transaction-service
+    container_name: transaction-service
+    restart: always
+    env_file:
+      - ./transaction-service/.env
+    depends_on:
+      - postgres
+    ports:
+      - "4002:4002"
+
+  gateway:
+    build:
+      context: ./gateway
+    container_name: api-gateway
+    restart: always
+    env_file:
+      - ./gateway/.env
+    depends_on:
+      - user-service
+      - transaction-service
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:
