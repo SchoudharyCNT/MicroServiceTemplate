@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+
+// Load environment variables once on startup
 dotenv.config();
 
 export const config = {

@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
+// Generic error handler used across services
 export function errorHandler(
   err: any,
   _: Request,
