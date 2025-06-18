@@ -3,7 +3,7 @@ import fastifyJwt from "fastify-jwt";
 import { config } from "../config";
 
 // Plugin to register JWT support on the gateway
-export default fp(async (fastify) => {
+export default fp(async (fastify: any) => {
   // Provide jwt utilities like request.jwtVerify()
   fastify.register(fastifyJwt, { secret: config.jwtSecret });
 

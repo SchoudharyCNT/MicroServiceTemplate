@@ -6,7 +6,8 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": ["../shared/src/types"]
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../shared/src/types/stubs.d.ts"]
 }
